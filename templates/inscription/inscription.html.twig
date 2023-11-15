@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IMMY BEAUTY - Inscription{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+{% endblock %}
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{{ path('connexion') }}">IMMY BEAUTY</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{{ path('accueil') }}" class="nav-link">Accueil</a></li>
+                    <li class="nav-item"><a href="{{ path('accueil') }}" class="nav-link">Nos services</a></li>
+                    <li class="nav-item"><a href="{{ path('accueil') }}" class="nav-link">Contact</a></li>
+                    <li class="nav-item active"><a href="{{ path('connexion') }}" class="nav-link">Espace Fidélité</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="post" action="">
+                    <h2 class="text-center mb-4">Créer un compte</h2>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="prenom">Prénom:</label>
+                            <input type="text" id="prenom" name="prenom" class="form-control" required autofocus>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nom">Nom:</label>
+                            <input type="text" id="nom" name="nom" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="telephone">Numéro de téléphone:</label>
+                            <input type="tel" id="telephone" name="telephone" class="form-control" required maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="password">Mot de passe:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="confirm_password">Confirmer le mot de passe:</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">S'inscrire</button>
+                    </div>
+                    <div class="text-center">
+                        <span>Vous avez déjà un compte? <a href="">Connectez-vous</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 ftco-animate">
+                    <div class="media d-block text-center block-6 services">
+                        <div class="icon d-flex mb-3"><span class="flaticon-facial-treatment text-center"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading">INSCRIVEZ VOUS</h3>
+                            <p>Commencez votre voyage pour gagner des points et profiter d'avantages exclusifs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="media d-block text-center block-6 services">
+                        <div class="icon d-flex mb-3"><span class="flaticon-cosmetics"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading">CUMULEZ DES POINTS</h3>
+                            <p>
+                                Plus vous collectez de points, plus vous débloquez de récompenses et de privilèges spéciaux. (Réduction, Service et produit GRATUIT)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="media d-block text-center block-6 services">
+                        <div class="icon d-flex mb-3"><span class="flaticon-curl"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading">PROFITEZ DES AVANTAGES</h3>
+                            <p>
+                                Échangez vos points contre des réductions, des produits gratuits ou des services spéciaux.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script>
+    $(document).ready(function() {
+        // Display an info toast with no title
+        $('form').submit(function(e) {
+            e.preventDefault(); // Empêche le formulaire de soumettre normalement
+            var prenom = $('#prenom').val();
+            var nom = $('#nom').val();
+            var email = $('#email').val();
+            var telephone = $('#telephone').val();
+            var password = $('#password').val();
+            var confirm_password = $('#confirm_password').val();
+
+            var isValid = true;
+
+            // Exemples de validations
+            if (prenom === '' || nom === '') {
+                toastr.error('Prénom et nom sont obligatoires.');
+                return
+            }
+
+            if (email === '' || !email.includes('@')) {
+                toastr.error('Entrez une adresse email valide.');
+                return
+            }
+
+            if (!/^\d+$/.test(telephone) || telephone.length !== 10) {
+                toastr.error('Le numéro de téléphone doit être composé de 10 chiffres.');
+                return
+            }
+
+            if (password.length < 5) {
+                toastr.error('Le mot de passe doit contenir au moins 5 caractères.');
+                return
+            }
+
+            if (password !== confirm_password) {
+                toastr.error('Les mots de passe ne correspondent pas.');
+                return
+            }
+
+            var formData = $(this).serialize(); // Sérialise les données de formulaire
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ path('api_register') }}', // Remplacez par le chemin généré de votre route d'API
+                data: formData,
+                success: function(response) {
+                    // Ici, vous pouvez gérer la réponse de succès
+                    localStorage.setItem('registerSuccess', 'Inscription réussi ! Vous pouvez désormais vous connecter.');
+
+                    // Redirection vers la page d'accueil
+                    window.location.href = '{{ path('connexion') }}';
+                },
+                error: function(xhr, status, error) {
+                    var errorMsg = "Une erreur est survenue lors de l'inscription.";
+
+                    // Tentative d'extraction du message d'erreur de la réponse JSON
+                    if (xhr.responseText) {
+                        try {
+                            var responseJson = JSON.parse(xhr.responseText);
+                            if (responseJson.message) {
+                                errorMsg = responseJson.message;
+                            }
+                        } catch (e) {
+                            console.error("Erreur lors de l'analyse de la réponse d'erreur: ", e);
+                        }
+                    }
+                    toastr.error(errorMsg); // Affiche le message d'erreur dans une notification Toastr
+                }
+            });
+        });
+    });
+
+</script>
+{% endblock %}

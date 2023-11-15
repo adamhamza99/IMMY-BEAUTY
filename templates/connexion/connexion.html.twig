@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IMMY BEAUTY - Connexion{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="{{ path('connexion') }}">IMMY BEAUTY</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="{{ path('accueil') }}" class="nav-link">Accueil</a></li>
+                    <li class="nav-item"><a href="{{ path('accueil') }}" class="nav-link">Nos services</a></li>
+                    <li class="nav-item"><a href="{{ path('accueil') }}" class="nav-link">Contact</a></li>
+                    <li class="nav-item active"><a href="{{ path('connexion') }}" class="nav-link">Espace Fidélité</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="login-form" method="post">
+                    <h2 class="text-center mb-4">Mon espace fidélité</h2>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" name="_email" class="form-control" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe:</label>
+                        <input type="password" id="password" name="_password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+                    </div>
+                    <div class="text-center">
+                        <span>Vous n'avez pas de compte? <a href="{{ path('inscription') }}">Inscrivez-vous</a></span>
+                        <br/>
+                        <a href="">Mot de passe oublié?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 ftco-animate">
+                    <div class="media d-block text-center block-6 services">
+                        <div class="icon d-flex mb-3"><span class="flaticon-facial-treatment text-center"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading">INSCRIVEZ VOUS</h3>
+                            <p>Commencez votre voyage pour gagner des points et profiter d'avantages exclusifs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="media d-block text-center block-6 services">
+                        <div class="icon d-flex mb-3"><span class="flaticon-cosmetics"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading">CUMULEZ DES POINTS</h3>
+                            <p>
+                                Plus vous collectez de points, plus vous débloquez de récompenses et de privilèges spéciaux. (Réduction, Service et produit GRATUIT)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="media d-block text-center block-6 services">
+                        <div class="icon d-flex mb-3"><span class="flaticon-curl"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading">PROFITEZ DES AVANTAGES</h3>
+                            <p>
+                                Échangez vos points contre des réductions, des produits gratuits ou des services spéciaux.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <a href="https://www.planity.com/immy-beauty" class="btn-reserver">RÉSERVER</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+        $('#login-form').submit(function(event) {
+            event.preventDefault(); // Empêcher la soumission standard du formulaire
+
+            var formData = {
+                _email: $('#email').val(),
+                _password: $('#password').val(),
+                _csrf_token: '{{ csrf_token('authenticate') }}'
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ path('connexion') }}', // Remplacez par le chemin généré de votre route de connexion
+                data: formData,
+                success: function(response) {
+                    // Rediriger vers une page après une connexion réussie
+                    // Enregistrez un message de bienvenue dans le stockage local ou la session
+                    localStorage.setItem('welcomeMessage', 'Vous êtes maintenant connecté');
+
+                    // Redirection vers la page d'accueil
+                    window.location.href = '{{ path('app_fidelite') }}';
+
+                },
+                error: function(xhr) {
+                    // Extraction du message d'erreur de la réponse du serveur
+                    var errorMsg = "Erreur de connexion. Veuillez vérifier vos identifiants.";
+                    if (xhr.responseText) {
+                        try {
+                            var responseJson = JSON.parse(xhr.responseText);
+                            if (responseJson.message) {
+                                errorMsg = responseJson.message;
+                            }
+                        } catch (e) {
+                            console.error("Erreur lors de l'analyse de la réponse d'erreur: ", e);
+                        }
+                    }
+
+                    toastr.error(errorMsg); // Affiche le message d'erreur dans une notification Toastr
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

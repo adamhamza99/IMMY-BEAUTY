@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'NEXT ART';
+    src: url('NEXTART-Heavy.woff2') format('woff2'),
+        url('NEXTART-Heavy.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NEXT ART';
+    src: url('NEXTART-SemiBold.woff2') format('woff2'),
+        url('NEXTART-SemiBold.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+}
+
